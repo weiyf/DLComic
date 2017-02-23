@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<tabs xmlns:android="http://schemas.android.com/apk/res/android">
+    <tab
+        icon="@drawable/ic_home"
+        id="@+id/tab_home"
+        android:title="@string/menu_tab_home"/>
+
+    <tab
+        icon="@drawable/ic_classify"
+        id="@+id/tab_classify"
+        android:title="@string/menu_tab_classify"/>
+
+    <tab
+        icon="@drawable/ic_bookshelf"
+        id="@+id/tab_bookshelf"
+        android:title="@string/menu_tab_bookshelf"/>
+
+    <tab
+        icon="@drawable/ic_mime"
+        id="@+id/tab_mime"
+        android:title="@string/menu_tab_mime"/>
+</tabs>

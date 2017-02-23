@@ -1,0 +1,7 @@
+<resources>
+    <string name="menu_tab_home">首页</string>
+    <string name="menu_tab_classify">分类</string>
+    <string name="menu_tab_bookshelf">书架</string>
+    <string name="menu_tab_mime">我的</string>
+    <string name="is_debug">true</string>
+</resources>
