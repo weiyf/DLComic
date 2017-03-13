@@ -1,14 +1,9 @@
 package cn.weiyf.dlcomic.net;
 
 
-import com.google.gson.annotations.Expose;
-
 public class BaseResponse<T> {
-    @Expose
     private int status;
-    @Expose
     private String msg;
-    @Expose
     private T data;
 
     public int getStatus() {

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="position"
+            type="Integer"/>
+
+        <variable
+            name="item"
+            type="cn.weiyf.dlcomic.entity.Config.ComicType.DataBean"/>
+
+        <variable
+            name="itemClick"
+            type="cn.weiyf.dlframe.listener.OnItemClickListener"/>
+
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:onClick="@{() -> itemClick.onItemClick(position, item)}"
+                  android:layout_height="wrap_content"
+                  android:foreground="?attr/selectableItemBackground"
+                  android:gravity="center"
+                  android:layout_margin="5dp"
+                  android:orientation="vertical">
+
+        <ImageView
+            app:image="@{@string/png_image(item.image, item.id)}"
+            android:layout_width="70dp"
+            android:layout_height="70dp"/>
+
+        <TextView
+            android:text="@{item.name}"
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</layout>

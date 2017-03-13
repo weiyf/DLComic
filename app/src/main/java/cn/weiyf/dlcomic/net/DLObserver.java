@@ -2,6 +2,7 @@ package cn.weiyf.dlcomic.net;
 
 import android.support.v4.app.FragmentManager;
 
+import cn.weiyf.dlcomic.util.CommonUtils;
 import cn.weiyf.dlframe.net.BaseObserver;
 import cn.weiyf.dlframe.net.DLException;
 
@@ -20,7 +21,8 @@ public abstract class DLObserver<T> extends BaseObserver<T> {
 
     @Override
     public void handlerError(DLException e) {
-
+        CommonUtils.showToast(e.getMessage());
+        _onError(e);
     }
 
 

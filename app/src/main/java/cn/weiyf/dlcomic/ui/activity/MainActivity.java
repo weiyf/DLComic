@@ -10,14 +10,17 @@ import com.roughike.bottombar.OnTabSelectListener;
 import cn.weiyf.dlcomic.R;
 import cn.weiyf.dlcomic.base.BaseActivity;
 import cn.weiyf.dlcomic.base.BaseFragment;
+import cn.weiyf.dlcomic.base.BaseMainFragment;
 import cn.weiyf.dlcomic.databinding.ActivityMainBinding;
 import cn.weiyf.dlcomic.ui.fragment.BookShelfParentFragment;
 import cn.weiyf.dlcomic.ui.fragment.ClassifyParentFragment;
 import cn.weiyf.dlcomic.ui.fragment.HomeParentFragment;
 import cn.weiyf.dlcomic.ui.fragment.MineParentFragment;
 import me.yokeyword.fragmentation.SupportFragment;
+import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
+import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements BaseMainFragment.OnBackToFirstListener {
 
 
     private ActivityMainBinding mMainBinding;
@@ -42,6 +45,11 @@ public class MainActivity extends BaseActivity {
             mPresenter.mFragments[3] = findFragment(MineParentFragment.class);
         }
         mPresenter.init();
+    }
+
+    @Override
+    public void onBackToFirstFragment() {
+        mMainBinding.bottomBar.selectTabAtPosition(0);
     }
 
 
@@ -79,5 +87,10 @@ public class MainActivity extends BaseActivity {
             // TODO: 2017/1/25 刷新
         };
 
+    }
+
+    @Override
+    protected FragmentAnimator onCreateFragmentAnimator() {
+        return new DefaultHorizontalAnimator();
     }
 }

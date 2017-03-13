@@ -1,13 +1,387 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:bind="http://schemas.android.com/apk/res-auto">
 
-    <data></data>
+    <data>
+
+        <import type="java.util.List"/>
+
+        <import type="cn.weiyf.dlframe.adapter.SingleTypeAdapter"/>
+
+        <import type="cn.weiyf.dlcomic.entity.Recommend.BookBean"/>
+
+        <import type="cn.weiyf.dlcomic.entity.Comic"/>
+
+        <import type="android.support.v7.widget.RecyclerView.LayoutManager"/>
+
+        <variable
+            name="presenter"
+            type="cn.weiyf.dlcomic.ui.fragment.HomeFragment.Presenter"/>
+
+        <variable
+            name="adapters"
+            type="List&lt;SingleTypeAdapter&lt;Comic&gt;&gt;"/>
+
+        <variable
+            name="layoutManagers"
+            type="List&lt;LayoutManager&gt;"/>
 
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:orientation="vertical">
+        <variable
+            name="bookList"
+            type="List&lt;BookBean&gt;"/>
 
-    </LinearLayout>
+        <variable
+            name="refreshListener"
+            type="android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener"/>
+
+        <variable
+            name="isRefresh"
+            type="boolean"/>
+
+
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_bar_height"
+            android:fitsSystemWindows="true"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:offsetChanged="@{presenter}">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                app:statusBarScrim="@android:color/transparent">
+
+                <com.youth.banner.Banner
+                    android:id="@+id/banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="true"
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="0.7"/>
+
+
+                <android.support.v7.widget.Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:menu="@{presenter.menuRes()}"/>
+
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:gravity="center"
+                    android:text="@{presenter.title()}"
+                    android:textSize="16sp"
+                    app:layout_collapseMode="pin"/>
+
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:initRefresh="@{refreshListener}"
+            app:isRefresh="@{isRefresh}"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorBackground"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        style="@style/home_list_l">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    style="@style/home_list_title"
+                                    android:drawableLeft="@drawable/ic_list_jd"
+                                    android:text="@{bookList[0].book_name}"/>
+
+                                <TextView
+                                    style="@style/home_list_summary"
+                                    android:text="@{bookList[0].summary}"/>
+
+                            </LinearLayout>
+
+                            <TextView
+                                style="@style/home_list_more"
+                                android:onClick="@{() -> presenter.more(bookList[0].book_id)}"/>
+                        </RelativeLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            app:adapter="@{adapters[0]}"
+                            app:layoutManager="@{layoutManagers[0]}"
+                            app:nestedScrollingEnabled="@{false}"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/home_list_l"
+                        android:layout_marginTop="8dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    style="@style/home_list_title"
+                                    android:drawableLeft="@drawable/ic_list_fire"
+                                    android:text="@{bookList[1].book_name}"/>
+
+                                <TextView
+                                    style="@style/home_list_summary"
+                                    android:text="@{bookList[1].summary}"/>
+
+                            </LinearLayout>
+
+                            <TextView
+                                style="@style/home_list_more"
+                                android:onClick="@{() -> presenter.more(bookList[1].book_id)}"/>
+                        </RelativeLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            app:adapter="@{adapters[1]}"
+                            app:layoutManager="@{layoutManagers[1]}"
+                            app:nestedScrollingEnabled="@{false}"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/home_list_l"
+                        android:layout_marginTop="8dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    style="@style/home_list_title"
+                                    android:drawableLeft="@drawable/ic_list_love"
+                                    android:text="@{bookList[2].book_name}"/>
+
+                                <TextView
+                                    style="@style/home_list_summary"
+                                    android:text="@{bookList[2].summary}"/>
+
+                            </LinearLayout>
+
+                            <TextView
+                                style="@style/home_list_more"
+                                android:onClick="@{() -> presenter.more(bookList[2].book_id)}"/>
+                        </RelativeLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            app:adapter="@{adapters[2]}"
+                            app:layoutManager="@{layoutManagers[2]}"
+                            app:nestedScrollingEnabled="@{false}"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/home_list_l"
+                        android:layout_marginTop="8dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    style="@style/home_list_title"
+                                    android:drawableLeft="@drawable/ic_list_fast"
+                                    android:text="@{bookList[3].book_name}"/>
+
+                                <TextView
+                                    style="@style/home_list_summary"
+                                    android:text="@{bookList[3].summary}"/>
+
+                            </LinearLayout>
+
+                            <TextView
+                                style="@style/home_list_more"
+                                android:onClick="@{() -> presenter.more(bookList[3].book_id)}"/>
+                        </RelativeLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            app:adapter="@{adapters[3]}"
+                            app:layoutManager="@{layoutManagers[3]}"
+                            app:nestedScrollingEnabled="@{false}"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/home_list_l"
+                        android:layout_marginTop="8dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    style="@style/home_list_title"
+                                    android:drawableLeft="@drawable/ic_list_dream"
+                                    android:text="@{bookList[4].book_name}"/>
+
+                                <TextView
+                                    style="@style/home_list_summary"
+                                    android:text="@{bookList[4].summary}"/>
+
+                            </LinearLayout>
+
+                            <TextView
+                                style="@style/home_list_more"
+                                android:onClick="@{() -> presenter.more(bookList[4].book_id)}"/>
+                        </RelativeLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            app:adapter="@{adapters[4]}"
+                            app:layoutManager="@{layoutManagers[4]}"
+                            app:nestedScrollingEnabled="@{false}"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/home_list_l"
+                        android:layout_marginTop="8dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    style="@style/home_list_title"
+                                    android:drawableLeft="@drawable/ic_list_new"
+                                    android:text="@{bookList[5].book_name}"/>
+
+                                <TextView
+                                    style="@style/home_list_summary"
+                                    android:text="@{bookList[5].summary}"/>
+
+                            </LinearLayout>
+
+                            <TextView
+                                style="@style/home_list_more"
+                                android:onClick="@{() -> presenter.more(bookList[5].book_id)}"/>
+                        </RelativeLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            app:adapter="@{adapters[5]}"
+                            app:layoutManager="@{layoutManagers[5]}"
+                            app:nestedScrollingEnabled="@{false}"/>
+                    </LinearLayout>
+
+                    <android.support.design.widget.TabLayout
+                        app:onTabSelected="@{presenter}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/colorWhite"
+                        app:tabSelectedTextColor="@color/colorAccent">
+
+                        <android.support.design.widget.TabItem
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:icon="@drawable/selector_rank_fire"
+                            android:text="人气榜"/>
+
+                        <android.support.design.widget.TabItem
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:icon="@drawable/selector_rank_love"
+                            android:text="打赏榜"/>
+
+                        <android.support.design.widget.TabItem
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:icon="@drawable/selector_rank_month"
+                            android:text="月票榜"/>
+
+
+                    </android.support.design.widget.TabLayout>
+
+                    <FrameLayout
+                        android:id="@+id/rank"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    </FrameLayout>
+
+
+                </LinearLayout>
+
+            </android.support.v4.widget.NestedScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="position"
+            type="Integer"/>
+
+        <variable
+            name="item"
+            type="cn.weiyf.dlcomic.entity.Comic"/>
+
+        <variable
+            name="itemClick"
+            type="cn.weiyf.dlframe.listener.OnItemClickListener"/>
+
+        <variable
+            name="transition"
+            type="String"/>
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="100dp"
+                  android:layout_height="wrap_content"
+                  android:layout_margin="5dp"
+                  android:foreground="?attr/selectableItemBackground"
+                  android:gravity="center"
+                  android:onClick="@{() -> itemClick.onItemClick(position, item)}"
+                  android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:layout_height="135dp">
+
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="135dp"
+                android:scaleType="fitXY"
+                app:image="@{@string/cover_image(item.image, item.comic_id)}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/shape_bg_black"
+                android:drawableLeft="@drawable/ic_score"
+                android:gravity="end"
+                android:text='@{@string/score(item.score / 10F)}'
+                android:textColor="@color/colorWhite"
+                android:textSize="12sp"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/color55Black"
+                android:text="@{item.last_chapter.name}"
+                android:textColor="@color/colorWhite"/>
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="@{item.comic_name}"
+            android:textColor="@color/colorBlack"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="@{item.comic_feature}"
+            android:textSize="10sp"/>
+
+    </LinearLayout>
+
+</layout>

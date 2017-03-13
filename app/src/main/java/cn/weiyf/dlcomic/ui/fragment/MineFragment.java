@@ -17,6 +17,7 @@ public class MineFragment extends BaseFragment {
 
     private FragmentMineBinding mMineBinding;
 
+
     public static MineFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -35,6 +36,5 @@ public class MineFragment extends BaseFragment {
 
     @Override
     protected void initViews(@Nullable Bundle savedInstanceState) {
-
     }
 }
